@@ -1,0 +1,14 @@
+
+.coin-row {
+    margin: 0px 0px 15px 0px;
+}
+
+.coin-column {
+    background-position-x: 95%;
+    background-position-y: top;
+    background-repeat: no-repeat;
+}
+
+.coin-column:last-child {
+    border-right: none;
+}
