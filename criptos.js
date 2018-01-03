@@ -5,16 +5,16 @@ function byId(id) {
 function convertFromBRL() {
     var reais = byId('brl').value;
 
-    moedas.map(m => byId(m.ticker).value = m.fromBaseCoin(reais));
+    moedas.map(m => byId(m.token).value = m.fromBaseCoin(reais));
 }
 
 class Cripto {
     constructor({
-        ticker,
+        token,
         url
     }) {
         this.proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-        this.ticker = ticker;
+        this.token = token;
         this.url = this.proxyUrl + url;
         this.name = this.constructor.name;
         this.iconUrl = 'https://files.coinmarketcap.com/static/img/coins/128x128/' + this.name.toLowerCase() + '.png';
@@ -45,7 +45,7 @@ class Cripto {
 class Bitcoin extends Cripto {
     constructor() {
         super({
-            ticker: 'BTC',
+            token: 'BTC',
             url: 'http://dolarhoje.com/bitcoin-hoje/cotacao.txt'
         })
     }
@@ -54,7 +54,7 @@ class Bitcoin extends Cripto {
 class RaiBlocks extends Cripto {
     constructor() {
         super({
-            ticker: 'XRB',
+            token: 'XRB',
             url: 'http://dolarhoje.com/raiblocks-hoje/cotacao.txt'
         })
     }
@@ -63,7 +63,7 @@ class RaiBlocks extends Cripto {
 class Ripple extends Cripto {
     constructor() {
         super({
-            ticker: 'XRP',
+            token: 'XRP',
             url: 'http://dolarhoje.com/ripple/cotacao.txt'
         })
     }
@@ -72,7 +72,7 @@ class Ripple extends Cripto {
 class Litecoin extends Cripto {
     constructor() {
         super({
-            ticker: 'LTC',
+            token: 'LTC',
             url: 'http://dolarhoje.com/litecoin/cotacao.txt'
         })
     }
@@ -81,12 +81,20 @@ class Litecoin extends Cripto {
 class Ethereum extends Cripto {
     constructor() {
         super({
-            ticker: 'ETH',
+            token: 'ETH',
             url: 'http://dolarhoje.com/ethereum/cotacao.txt'
         })
     }
 }
 
+class Tron extends Cripto {
+    constructor() {
+        super({
+            token: 'TRX',
+            url: 'http://dolarhoje.com/tron-hoje/cotacao.txt'
+        })
+    }
+}
 
 
 let btc = new Bitcoin();
@@ -94,7 +102,8 @@ let xrb = new RaiBlocks();
 let xrp = new Ripple();
 let ltc = new Litecoin();
 let eth = new Ethereum();
-let moedas = [btc, xrb, xrp, ltc, eth];
+let trx = new Tron();
+let moedas = [btc, xrb, xrp, ltc, eth, trx];
 
 let requests = moedas.map((c) => fetch(c.url).then(res => res.text()));
 Promise
@@ -103,7 +112,7 @@ Promise
         for (var i in responses) {
             var moeda = moedas[i];
             moeda.setPrice(responses[i]);
-            byId(moeda.ticker + '-price').innerText = responses[i];
+            byId(moeda.token + '-price').innerText = responses[i];
         }
     })
     .catch((err) => {
