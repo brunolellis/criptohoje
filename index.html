@@ -14,7 +14,7 @@
 
         <div class="container u-max-full-width">
             <div class="row">
-                <div class="twelve columns">R$ <input id="brl" v-model="brl"> <button v-on:click="convertFromBRL">Converter</button><br/></div>
+                <div class="twelve columns">R$ <input id="brl" v-model="brl"> <button @click="convertFromBRL">Converter</button><br/></div>
             </div>
 
             <div class="row coin-row" v-for="moedas in chunkedCoins">

@@ -124,7 +124,7 @@ Vue.component('moeda', {
     template: `
         <div class="one-third column coin-column" :style="'background-image: url(https://files.coinmarketcap.com/static/img/coins/128x128/' + moeda.name.toLowerCase() + '.png);'">
             <h5>{{moeda.name}}</h5>
-            <small>1 {{moeda.token}} = BRL <span :id="moeda.token + '-price'">{{moeda.price}}</span></small><br/>
+            <small>1 {{moeda.token}} = BRL {{moeda.price}}</small><br/>
             <input :id="moeda.token" v-model="moeda.conversion"><br/>
         </div>`
 })
