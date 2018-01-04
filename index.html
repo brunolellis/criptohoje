@@ -17,55 +17,18 @@
             </div>
 
             <div class="row coin-row" v-for="moedas in chunkedCoins">
-                <moeda v-for="moeda in moedas" :id="moeda.token + '-row'" :moeda="moeda"></moeda>
+                <moeda v-for="moeda in moedas" :key="moeda.token" :moeda="moeda"></moeda>
             </div>
-
-            <!--
-            <div class="row coin-row">
-                <div class="four columns coin-column" style="background-image: url(https://files.coinmarketcap.com/static/img/coins/128x128/bitcoin.png);">
-                    <h5>Bitcoin</h5>
-                    <small>1 BTC = BRL <span id="BTC-price"></span></small><br/>
-                    <input id="BTC"><br/>
-                </div>
-                <div class="four columns coin-column" style="background-image: url(https://files.coinmarketcap.com/static/img/coins/128x128/ripple.png);">
-                    <h5>Ripple</h5>
-                    <small>1 XRP = BRL <span id="XRP-price"></span></small><br/>
-                    <input id="XRP"><br/>
-                </div>
-                <div class="four columns coin-column" style="background-image: url(https://files.coinmarketcap.com/static/img/coins/128x128/raiblocks.png);">
-                    <h5>RaiBlocks</h5>
-                    <small>1 XRB = BRL <span id="XRB-price"></span></small><br/>
-                    <input id="XRB"><br/>
-                </div>
-            </div>
-
-            <div class="row coin-row">
-                <div class="four columns coin-column" style="background-image: url(https://files.coinmarketcap.com/static/img/coins/128x128/litecoin.png);">
-                    <h5>Litecoin</h5>
-                    <small>1 LTC = BRL <span id="LTC-price"></span></small><br/>
-                    <input id="LTC"><br/>
-                </div>
-                <div class="four columns coin-column" style="background-image: url(https://files.coinmarketcap.com/static/img/coins/128x128/ethereum.png);">
-                    <h5>Ethereum</h5>
-                    <small>1 ETH = BRL <span id="ETH-price"></span></small><br/>
-                    <input id="ETH"><br/>
-                </div>
-                <div class="four columns coin-column" style="background-image: url(https://files.coinmarketcap.com/static/img/coins/128x128/tron.png);">
-                    <h5>Tron</h5>
-                    <small>1 TRX = BRL <span id="TRX-price"></span></small><br/>
-                    <input id="TRX"><br/>
-                </div>
-            </div>
-            -->
         </div>
-
     </div>
 
 
+<!-- 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script> -->
-    <script type="text/javascript" src="chunk.js"></script>
-    <script type="text/javascript" src="criptos.js"></script>
+-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+<script type="text/javascript" src="chunk.js"></script>
+<script type="text/javascript" src="criptos.js"></script>
 </body>
 
 </html>
