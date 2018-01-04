@@ -9,14 +9,18 @@
 </head>
 
 <body>
-
     <div id="app">
 
         <div class="container u-max-full-width">
             <div class="row">
-                <div class="twelve columns">R$ <input id="brl"> <button onclick="convertFromBRL()">Converter</button><br/></div>
+                <div class="twelve columns">R$ <input id="brl" v-model="brl"> <button v-on:click="convertFromBRL">Converter</button><br/></div>
             </div>
 
+            <div class="row coin-row" v-for="moedas in chunkedCoins">
+                <moeda v-for="moeda in moedas" :id="moeda.token + '-row'" :moeda="moeda"></moeda>
+            </div>
+
+            <!--
             <div class="row coin-row">
                 <div class="four columns coin-column" style="background-image: url(https://files.coinmarketcap.com/static/img/coins/128x128/bitcoin.png);">
                     <h5>Bitcoin</h5>
@@ -52,13 +56,15 @@
                     <input id="TRX"><br/>
                 </div>
             </div>
+            -->
         </div>
 
     </div>
 
-    
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
     <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script> -->
+    <script type="text/javascript" src="chunk.js"></script>
     <script type="text/javascript" src="criptos.js"></script>
 </body>
 

@@ -1,13 +1,3 @@
-function byId(id) {
-    return document.getElementById(id);
-}
-
-function convertFromBRL() {
-    var reais = byId('brl').value;
-
-    moedas.map(m => byId(m.token).value = m.fromBaseCoin(reais));
-}
-
 class Cripto {
     constructor({
         token,
@@ -18,6 +8,8 @@ class Cripto {
         this.url = this.proxyUrl + url;
         this.name = this.constructor.name;
         this.iconUrl = 'https://files.coinmarketcap.com/static/img/coins/128x128/' + this.name.toLowerCase() + '.png';
+        this.price = undefined;
+        this.conversion = undefined;
     }
 
     setPrice(price) {
@@ -33,6 +25,10 @@ class Cripto {
     }
 
     stringToNumber(str) {
+        if (typeof str === 'number') {
+            return str;
+        }
+
         return parseFloat(str
             .replace(/\./g, ',')
             .replace(/[^0-9\.,]/g, '')
@@ -98,12 +94,12 @@ class Tron extends Cripto {
 
 
 let btc = new Bitcoin();
-let xrb = new RaiBlocks();
-let xrp = new Ripple();
-let ltc = new Litecoin();
 let eth = new Ethereum();
+let ltc = new Litecoin();
+let xrp = new Ripple();
+let xrb = new RaiBlocks();
 let trx = new Tron();
-let moedas = [btc, xrb, xrp, ltc, eth, trx];
+let moedas = [btc, eth, ltc, xrp, xrb, trx];
 
 let requests = moedas.map((c) => fetch(c.url).then(res => res.text()));
 Promise
@@ -112,9 +108,45 @@ Promise
         for (var i in responses) {
             var moeda = moedas[i];
             moeda.setPrice(responses[i]);
-            byId(moeda.token + '-price').innerText = responses[i];
+            //byId(moeda.token + '-price').innerText = responses[i];
         }
     })
     .catch((err) => {
         console.log(err);
     });
+
+
+
+
+
+Vue.component('moeda', {
+    props: ['moeda'],
+    template: `
+        <div class="one-third column coin-column" :style="'background-image: url(https://files.coinmarketcap.com/static/img/coins/128x128/' + moeda.name.toLowerCase() + '.png);'">
+            <h5>{{moeda.name}}</h5>
+            <small>1 {{moeda.token}} = BRL <span :id="moeda.token + '-price'">{{moeda.price}}</span></small><br/>
+            <input :id="moeda.token" v-model="moeda.conversion"><br/>
+        </div>`
+})
+
+
+function convertFromBRL(event) {
+    moedas.map(m => m.conversion = m.fromBaseCoin(app.brl));
+}
+
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        brl: 1,
+        moedas: moedas
+    },
+    methods: {
+        convertFromBRL: convertFromBRL
+    },
+    computed: {
+        chunkedCoins() {
+            return chunk(moedas, 3)
+        }
+    }
+})
