@@ -1,3 +1,5 @@
+var baseBRL = 100;
+
 class Cripto {
     constructor({
         token,
@@ -101,14 +103,14 @@ let xrb = new RaiBlocks();
 let trx = new Tron();
 let moedas = [btc, eth, ltc, xrp, xrb, trx];
 
-let requests = moedas.map((c) => fetch(c.url).then(res => res.text()));
+let requests = moedas.map(c => fetch(c.url).then(res => res.text()));
 Promise
     .all(requests)
     .then((responses) => {
         for (var i in responses) {
             var moeda = moedas[i];
             moeda.setPrice(responses[i]);
-            //byId(moeda.token + '-price').innerText = responses[i];
+            moeda.brl = baseBRL;
         }
     })
     .catch((err) => {
@@ -120,12 +122,33 @@ Promise
 
 
 Vue.component('moeda', {
-    props: ['moeda'],
+    props: ['moeda', 'brl'],
+    methods: {
+        qtyUpdated() {
+            console.log(this.moeda.qty * this.moeda.price);
+            var brl = this.moeda.qty * this.moeda.price;
+
+            this.$emit('brl-updated', brl);
+            this.$forceUpdate();
+        }
+    },
+    computed:  {
+        fromBRL() {
+            if (!this.moeda || !this.moeda.price) return;
+
+            if (!this.moeda.qty) {
+                this.moeda.qty = this.brl / this.moeda.price;
+                this.$forceUpdate();
+            }
+        }
+        
+    },
     template: `
         <div class="one-third column coin-column" :style="'background-image: url(https://files.coinmarketcap.com/static/img/coins/128x128/' + moeda.name.toLowerCase() + '.png);'">
             <h5>{{moeda.name}}</h5>
-            <small>1 {{moeda.token}} = BRL {{moeda.price}}</small><br/>
-            <input :id="moeda.token" v-model="moeda.conversion"><br/>
+            <small>1 {{moeda.token}} = {{moeda.price}} BRL</small><br/>
+            <small>{{moeda.qty}} {{moeda.token}} = {{this.brl}} {{fromBRL}} BRL</small><br/>
+            <input :id="moeda.token" v-model="moeda.qty" @keyup="qtyUpdated"><br/>
         </div>`
 })
 
@@ -138,11 +161,14 @@ function convertFromBRL(event) {
 var app = new Vue({
     el: '#app',
     data: {
-        brl: 1,
+        brl: baseBRL,
         moedas: moedas
     },
     methods: {
-        convertFromBRL: convertFromBRL
+        convertFromBRL: convertFromBRL,
+        brlUpdated: function(newBRL) {
+            this.brl = newBRL;
+        }
     },
     computed: {
         chunkedCoins() {

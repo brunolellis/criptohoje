@@ -18,15 +18,15 @@
             </div>
 
             <div class="row coin-row" v-for="moedas in chunkedCoins">
-                <moeda v-for="moeda in moedas" :key="moeda.token" :moeda="moeda"></moeda>
+                <moeda v-for="moeda in moedas" :key="moeda.token" :moeda="moeda" :brl.sync="brl" @brl-updated="brlUpdated"></moeda>
             </div>
         </div>
         
     </div>
 <!-- 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
 -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
 <script type="text/javascript" src="chunk.js"></script>
 <script type="text/javascript" src="criptos.js"></script>
 </body>
